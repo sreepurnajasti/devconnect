@@ -9,6 +9,8 @@ const passport = require("passport");
 
 //Register validation
 const registerValidation = require("../../validation/register");
+//login validation
+const loginValidation = require("../../validation/login");
 
 //database - user model
 const User = require("../../models/User");
@@ -19,9 +21,12 @@ const User = require("../../models/User");
 */
 router.get("/test", (req, res) => res.json({ msg: "users works" }));
 
+/* @route POST api/users/register
+   @desc register user/ returning user object
+   @access Public
+*/
 router.post("/register", (req, res) => {
   //check basic validation
-  console.log(req.body);
   const { errors, isValid } = registerValidation(req.body);
   if (!isValid) {
     return res.status(400).json(errors);
@@ -51,6 +56,55 @@ router.post("/register", (req, res) => {
         });
       });
     }
+  });
+});
+
+/* @route POST api/users/login
+   @desc login user/ returning jwt token
+   @access Public
+*/
+router.post("/login", (req, res) => {
+  const { errors, isValid } = loginValidation(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const email = req.body.email;
+  const password = req.body.password;
+
+  User.findOne({ email }).then(user => {
+    if (!user) {
+      errors.email = "User email not found";
+      return res.status(404).json(errors);
+    }
+    bcrypt.compare(password, user.password).then(isMatch => {
+      //isMatch is true, password is correct
+      if (isMatch) {
+        //TODO: Activation link here
+        const payload = {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        };
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          { expiresIn: "1d" },
+          (err, token) => {
+            if (err) {
+              console.log(JSON.stringify(err));
+            }
+            res.json({
+              success: true,
+              token: "Bearer " + token
+            });
+          }
+        );
+      } else {
+        errors.password = "password incorrect";
+        return res.status(400).json(errors);
+      }
+    });
   });
 });
 

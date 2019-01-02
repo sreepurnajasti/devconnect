@@ -5,46 +5,75 @@ const profileSchema = new Schema({
     type: Schema.Types.ObjectId, // combine by id
     refs: "users" //existing model reference
   },
-  gender: {
-    type: String
-  },
-  dob: {
-    type: Date
-  },
-  address: {
-    type: String
-  },
-  phone: {
-    type: Number
-  },
-  website: {
-    type: String
-  },
   company: {
-    type: String
+    empno: {
+      type: Number,
+      required: true
+    },
+    companyName: {
+      type: String,
+      required: true
+    },
+    department: {
+      type: String,
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
+    },
+    status: {
+      type: String,
+      required: true
+    },
+    product: {
+      type: String
+    },
+    shift: {
+      type: String
+    },
+    handle: {
+      type: String,
+      required: true,
+      max: 50
+    }
   },
-  product: {
-    type: String
-  },
-  shift: {
-    type: String
-  },
-  location: {
-    type: String
-  },
-  status: {
-    type: String,
-    required: true
+  personal: {
+    gender: {
+      type: String
+    },
+    dob: {
+      type: Date
+    },
+    phone: {
+      type: Number,
+      required: true
+    },
+    address: {
+      type: String,
+      required: true
+    },
+    emergencyNo: {
+      type: Number,
+      required: true
+    },
+    bloodGroup: {
+      type: String,
+      required: true
+    },
+    bio: {
+      type: String
+    },
+    website: {
+      type: String
+    },
+    githubusername: {
+      type: String
+    }
   },
   skills: {
     type: [String],
     required: true
-  },
-  bio: {
-    type: String
-  },
-  githubusername: {
-    type: String
   },
   experience: [
     {
@@ -125,6 +154,12 @@ const profileSchema = new Schema({
       type: String
     },
     stackoverflow: {
+      type: String
+    },
+    medium: {
+      type: String
+    },
+    quora: {
       type: String
     }
   }

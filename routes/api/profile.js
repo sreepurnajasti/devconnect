@@ -6,7 +6,7 @@ require("../../config/passport")(passport);
 
 //database - user model
 const User = require("../../models/User");
-const Profile = require("../../model/Profile");
+const Profile = require("../../models/Profile");
 
 /* @route GET api/profile/test
    @desc Test the profile route
@@ -22,12 +22,12 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    errors = {};
+    const errors = {};
     Profile.findOne({ user: req.user.id })
       .then(profile => {
         if (!profile) {
           errors.noprofile = "There is no profile to display";
-          return res.status(404).json(error);
+          return res.status(404).json(errors);
         }
         res.json(profile);
       })
@@ -35,4 +35,83 @@ router.get(
   }
 );
 
+/* @route POST api/profile
+   @desc create/ edit current users profile
+   @access private
+*/
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const profileFields = {};
+    profileFields.user = req.user.id;
+    //company Info
+    profileFields.company = {};
+    if (req.body.empNo) profileFields.company.empNo = req.body.empNo;
+    if (req.body.companyName)
+      profileFields.company.companyName = req.body.companyName;
+    if (req.body.department)
+      profileFields.company.department = req.body.department;
+    if (req.body.location) profileFields.company.location = req.body.location;
+    if (req.body.status) profileFields.company.status = req.body.status;
+    if (req.body.product) profileFields.company.product = req.body.product;
+    if (req.body.shift) profileFields.company.shift = req.body.shift;
+    if (req.body.handle) profileFields.company.handle = req.body.handle;
+    //Personal Info
+    profileFields.personal = {};
+    if (req.body.gender) profileFields.personal.gender = req.body.gender;
+    if (req.body.dob) profileFields.personal.dob = req.body.dob;
+    if (req.body.phone) profileFields.personal.phone = req.body.phone;
+    if (req.body.address) profileFields.personal.address = req.body.address;
+    if (req.body.emergencyNo)
+      profileFields.personal.emergencyNo = req.body.emergencyNo;
+    if (req.body.bloodGroup)
+      profileFields.personal.bloodGroup = req.body.bloodGroup;
+    if (req.body.bio) profileFields.personal.bio = req.body.bio;
+    if (req.body.website) profileFields.personal.website = req.body.website;
+    if (req.body.githubusername)
+      profileFields.personal.githubusername = req.body.githubusername;
+    //Skills
+    if (typeof req.body.skills != "undefined") {
+      profileFields.skills = req.body.skills.split(",");
+    }
+    //Social Media Links
+    profileFields.social = {};
+    if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
+    if (req.body.twitter) profileFields.social.twitter = req.body.twitter;
+    if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
+    if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
+    if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
+    if (req.body.quora) profileFields.social.quora = req.body.quora;
+    if (req.body.medium) profileFields.social.medium = req.body.medium;
+    if (req.body.stackoverflow)
+      profileFields.social.stackoverflow = req.body.stackoverflow;
+
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      if (profile) {
+        //update
+        Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        ).then(profile => res.json(profile));
+      } else {
+        //create
+        //check if handle exists
+        Profile.findOne({ "company.handle": profileFields.handle }).then(
+          profile => {
+            if (profile) {
+              errors.handle = "This handle already exists";
+              res.status(400).json(errors);
+            }
+            //save profile
+            new Profile(profileFields)
+              .save()
+              .then(profile => res.json(profile));
+          }
+        );
+      }
+    });
+  }
+);
 module.exports = router;

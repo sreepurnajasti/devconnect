@@ -1,18 +1,26 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const mongoose = require("mongoose");
+const db = require("./config/keys").mongoURI;
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("momgodb connected"))
+  .catch(err => console.log(err));
+
 /* @route GET /
    @desc Test the basic route
    @access public
 */
 app.get("/", (req, res) => res.send("hello!"));
-
-const mongoose = require("mongoose");
-const db = require("./config/keys").mongoURI;
-mongoose
-  .connect(db)
-  .then(() => console.log("momgodb connected"))
-  .catch(err => console.log(err));
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");

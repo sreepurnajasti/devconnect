@@ -6,6 +6,7 @@ var router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+require("../../config/passport")(passport);
 
 //Register validation
 const registerValidation = require("../../validation/register");
@@ -89,7 +90,7 @@ router.post("/login", (req, res) => {
         jwt.sign(
           payload,
           keys.secretOrKey,
-          { expiresIn: "1d" },
+          { expiresIn: 3600 },
           (err, token) => {
             if (err) {
               console.log(JSON.stringify(err));
@@ -107,5 +108,19 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+/* @route GET api/users/current
+   @desc Return current user
+   @access Private
+*/
+
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //entire user is present in req.user
+    res.json({ id: req.user.id, name: req.user.name, email: req.user.email });
+  }
+);
 
 module.exports = router;

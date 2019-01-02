@@ -16,6 +16,10 @@ mongoose
   .then(() => console.log("momgodb connected"))
   .catch(err => console.log(err));
 
+const passport = require("passport");
+app.use(passport.initialize());
+require("./config/passport").passport;
+
 /* @route GET /
    @desc Test the basic route
    @access public

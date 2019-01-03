@@ -8,8 +8,10 @@ require("../../config/passport")(passport);
 const User = require("../../models/User");
 const Profile = require("../../models/Profile");
 
-//Register validation
+//validation
 const profileValidation = require("../../validation/profile");
+const educationValidation = require("../../validation/education");
+const experienceValidation = require("../../validation/experience");
 
 /* @route GET api/profile/test
    @desc Test the profile route
@@ -191,6 +193,34 @@ router.post(
           })
           .catch(err => console.log(err));
       }
+    });
+  }
+);
+
+/* @route POST api/profile/experience
+   @desc add experiences to profile
+   @access private
+*/
+router.post(
+  "/experience",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = experienceValidation(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newExp = {
+        title: req.body.title,
+        company: req.body.company,
+        from: req.body.from,
+        location: req.body.location,
+        description: req.body.description,
+        to: req.body.to,
+        current: req.body.current
+      };
+      profile.experience.unshift(newExp);
+      profile.save().then(profile => res.json(profile));
     });
   }
 );

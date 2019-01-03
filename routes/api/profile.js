@@ -224,4 +224,33 @@ router.post(
     });
   }
 );
+
+/* @route POST api/profile/education
+   @desc add education to profile
+   @access private
+*/
+router.post(
+  "/education",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = educationValidation(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newEdu = {
+        school: req.body.school,
+        degree: req.body.degree,
+        from: req.body.from,
+        specialization: req.body.specialization,
+        location: req.body.location,
+        description: req.body.description,
+        to: req.body.to,
+        current: req.body.current
+      };
+      profile.education.unshift(newEdu);
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
 module.exports = router;

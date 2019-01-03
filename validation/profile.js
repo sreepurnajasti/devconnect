@@ -7,7 +7,7 @@ module.exports = function validateLoginInput(data) {
   data.empNo = !isEmpty(data.empNo) ? data.empNo : "";
   data.companyName = !isEmpty(data.companyName) ? data.companyName : "";
   data.department = !isEmpty(data.department) ? data.department : "";
-  data.location = !isEmpty(data.location) ? data.location : "";
+  // data.location = !isEmpty(data.location) ? data.location : "";
   data.status = !isEmpty(data.status) ? data.status : "";
   data.handle = !isEmpty(data.handle) ? data.handle : "";
 
@@ -39,9 +39,9 @@ module.exports = function validateLoginInput(data) {
   if (validator.isEmpty(data.department)) {
     errors.department = "department field is required";
   }
-  if (validator.isEmpty(data.location)) {
-    errors.location = "location field is required";
-  }
+  // if (validator.isEmpty(data.location)) {
+  //   errors.location = "location field is required";
+  // }
   if (validator.isEmpty(data.status)) {
     errors.status = "status field is required";
   }

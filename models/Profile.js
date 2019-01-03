@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 const profileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId, // combine by id
-    refs: "users" //existing model reference
+    ref: "users" //existing model reference
   },
   company: {
-    empno: {
+    empNo: {
       type: Number,
       required: true
     },
@@ -18,16 +18,9 @@ const profileSchema = new Schema({
       type: String,
       required: true
     },
-    location: {
-      type: String,
-      required: true
-    },
     status: {
       type: String,
       required: true
-    },
-    product: {
-      type: String
     },
     shift: {
       type: String

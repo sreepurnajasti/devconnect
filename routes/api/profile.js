@@ -253,4 +253,28 @@ router.post(
     });
   }
 );
+
+/* @route DELETE api/profile/experience/expid
+   @desc delete experiences to profile
+   @access private
+*/
+router.delete(
+  "/experience/:expid",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // get remove index
+        const removeIndex = profile.experience
+          .map(item => item.id)
+          .indexOf(req.params.expid);
+        //splice out of array
+        profile.experience.splice(removeIndex, 1);
+        //save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
 module.exports = router;

@@ -1,6 +1,6 @@
 .landing__wrapper {
   position: relative;
-  height: 90vh;
+  height: 100vh;
   background-image: url("./img/photo-1493689485253-f07fcbfc731b.jpg"),
     linear-gradient(rgba(255, 255, 255, 0.527), rgba(255, 255, 255, 0.527));
   background-size: cover;

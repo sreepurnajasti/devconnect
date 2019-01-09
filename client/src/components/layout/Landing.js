@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 class Landing extends Component {
   render() {
     return (
-      <div className="container-fluid fixer__height">
+      <div className="container-fluid height-fixer">
         <div className="row landing__wrapper">
           <div className="landing">
             <h1 className="display-1 my-4">Employee Connector</h1>

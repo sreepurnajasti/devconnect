@@ -1,6 +1,6 @@
 .landing__wrapper {
   position: relative;
-  height: 100vh;
+  height: 100%;
   background-image: url("./img/photo-1493689485253-f07fcbfc731b.jpg"),
     linear-gradient(rgba(255, 255, 255, 0.527), rgba(255, 255, 255, 0.527));
   background-size: cover;
@@ -12,4 +12,23 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+}
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+}
+.height-fixer {
+  margin-top: 56px;
+  margin-bottom: 72px;
+  height: calc(100vh - 128px);
 }

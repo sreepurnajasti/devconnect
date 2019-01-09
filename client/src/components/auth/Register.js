@@ -43,7 +43,7 @@ class Register extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container-fluid">
+      <div className="container-fluid height-fixer">
         <div className="row">
           <div className="col-md-12">
             <h1 className="display-3 text-center">Sign Up</h1>

@@ -10,10 +10,6 @@ const profileSchema = new Schema({
       type: Number,
       required: true
     },
-    companyName: {
-      type: String,
-      required: true
-    },
     department: {
       type: String,
       required: true

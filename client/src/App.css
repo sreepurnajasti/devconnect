@@ -31,4 +31,5 @@ footer {
   margin-top: 56px;
   margin-bottom: 72px;
   height: calc(100vh - 128px);
+  overflow-y: scroll;
 }

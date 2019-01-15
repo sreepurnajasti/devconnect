@@ -44,9 +44,19 @@ export const loginUser = user => dispatch => {
       })
     );
 };
+
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
   };
+};
+
+export const logoutUser = () => dispatch => {
+  //remove token from local storage
+  localStorage.removeItem("jwtToken");
+  //remove axios header
+  setAuthToken(false);
+  //set isAuthenticated to false and user to {}
+  dispatch(setCurrentUser({}));
 };

@@ -5,7 +5,7 @@ module.exports = function validateLoginInput(data) {
   let errors = {};
 
   data.empNo = !isEmpty(data.empNo) ? data.empNo : "";
-  data.companyName = !isEmpty(data.companyName) ? data.companyName : "";
+  // data.companyName = !isEmpty(data.companyName) ? data.companyName : "";
   data.department = !isEmpty(data.department) ? data.department : "";
   // data.location = !isEmpty(data.location) ? data.location : "";
   data.status = !isEmpty(data.status) ? data.status : "";
@@ -23,19 +23,19 @@ module.exports = function validateLoginInput(data) {
   if (!validator.isLength(data.handle, { min: 2, max: 50 })) {
     errors.handle = "Handle must be between 2 and 50 characters";
   }
-  if (validator.isMobilePhone(data.phone)) {
-    errors.phone = "Not a valid phone number";
-  }
-  if (validator.isMobilePhone(data.emergencyNo)) {
-    errors.emergencyNo = "Not a valid phone number";
-  }
+  // if (validator.isMobilePhone(data.phone)) {
+  //   errors.phone = "Not a valid phone number";
+  // }
+  // if (validator.isMobilePhone(data.emergencyNo)) {
+  //   errors.emergencyNo = "Not a valid phone number";
+  // }
 
   if (validator.isEmpty(data.empNo)) {
     errors.empNo = "Employee Number field is required";
   }
-  if (validator.isEmpty(data.companyName)) {
-    errors.companyName = "companyName field is required";
-  }
+  // if (validator.isEmpty(data.companyName)) {
+  //   errors.companyName = "companyName field is required";
+  // }
   if (validator.isEmpty(data.department)) {
     errors.department = "department field is required";
   }

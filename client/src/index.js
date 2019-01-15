@@ -2,6 +2,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import $ from "../node_modules/jquery/dist/jquery.min.js";
 import Popper from "../node_modules/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import "../node_modules/font-awesome/css/font-awesome.min.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";

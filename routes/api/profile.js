@@ -124,13 +124,9 @@ router.post(
     //company Info
     profileFields.company = {};
     if (req.body.empNo) profileFields.company.empNo = req.body.empNo;
-    if (req.body.companyName)
-      profileFields.company.companyName = req.body.companyName;
     if (req.body.department)
       profileFields.company.department = req.body.department;
-    if (req.body.location) profileFields.company.location = req.body.location;
     if (req.body.status) profileFields.company.status = req.body.status;
-    if (req.body.product) profileFields.company.product = req.body.product;
     if (req.body.shift) profileFields.company.shift = req.body.shift;
     if (req.body.handle) profileFields.company.handle = req.body.handle;
     //Personal Info

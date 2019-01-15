@@ -6,7 +6,8 @@ import SelectListGroup from "../common/SelectListGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
 import { withRouter } from "react-router-dom";
-import { createProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions";
+import isEmpty from "../../validation/isEmpty";
 
 export class CreateProfile extends Component {
   constructor() {
@@ -41,11 +42,115 @@ export class CreateProfile extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
   //Set the errors to component state
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.profile) {
+      console.log(JSON.stringify(nextProps.profile));
+      //create object
+      let profile = nextProps.profile.profile;
+      let skillsCsv = profile.skills.join(",");
+      profile.company = !isEmpty(profile.company) ? profile.company : {};
+      profile.personal = !isEmpty(profile.personal) ? profile.personal : {};
+      profile.social = !isEmpty(profile.social) ? profile.social : {};
+
+      profile.empNo = !isEmpty(profile.company.empNo)
+        ? profile.company.empNo.toString()
+        : "";
+      profile.department = !isEmpty(profile.company.department)
+        ? profile.company.department
+        : "";
+      profile.status = !isEmpty(profile.company.status)
+        ? profile.company.status
+        : "";
+      profile.shift = !isEmpty(profile.company.shift)
+        ? profile.company.shift
+        : "";
+      profile.handle = !isEmpty(profile.company.handle)
+        ? profile.company.handle
+        : "";
+
+      profile.gender = !isEmpty(profile.personal.gender)
+        ? profile.personal.gender
+        : "";
+      profile.dob = !isEmpty(profile.personal.dob) ? profile.personal.dob : "";
+      profile.phone = !isEmpty(profile.personal.phone)
+        ? profile.personal.phone.toString()
+        : "";
+      profile.address = !isEmpty(profile.personal.address)
+        ? profile.personal.address
+        : "";
+      profile.emergencyNo = !isEmpty(profile.personal.emergencyNo)
+        ? profile.personal.emergencyNo.toString()
+        : "";
+      profile.bloodGroup = !isEmpty(profile.personal.bloodGroup)
+        ? profile.personal.bloodGroup
+        : "";
+      profile.bio = !isEmpty(profile.personal.bio) ? profile.personal.bio : "";
+      profile.website = !isEmpty(profile.personal.website)
+        ? profile.personal.website
+        : "";
+      profile.githubusername = !isEmpty(profile.personal.githubusername)
+        ? profile.personal.githubusername
+        : "";
+
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : "";
+      profile.linkedin = !isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
+      profile.stackoverflow = !isEmpty(profile.social.stackoverflow)
+        ? profile.social.stackoverflow
+        : "";
+      profile.medium = !isEmpty(profile.social.medium)
+        ? profile.social.medium
+        : "";
+      profile.quora = !isEmpty(profile.social.quora)
+        ? profile.social.quora
+        : "";
+
+      //set component state
+      this.setState({
+        empNo: profile.empNo,
+        department: profile.department,
+        status: profile.status,
+        shift: profile.shift,
+        handle: profile.handle,
+        gender: profile.gender,
+        dob: profile.dob,
+        phone: profile.phone,
+        address: profile.address,
+        emergencyNo: profile.emergencyNo,
+        bloodGroup: profile.bloodGroup,
+        bio: profile.bio,
+        website: profile.website,
+        githubusername: profile.githubusername,
+        skills: skillsCsv,
+        youtube: profile.youtube,
+        twitter: profile.twitter,
+        facebook: profile.facebook,
+        linkedin: profile.linkedin,
+        instagram: profile.instagram,
+        stackoverflow: profile.stackoverflow,
+        medium: profile.medium,
+        quora: profile.quora
+      });
     }
   }
 
@@ -193,10 +298,7 @@ export class CreateProfile extends Component {
       <div className="container-fluid height-fixer">
         <div className="row">
           <div className="col-md-12">
-            <h1 className="display-3 text-center">Create Your Profile</h1>
-            <h2 className="font-weight-light text-center mb-4">
-              Lets get your information to make your profile standout
-            </h2>
+            <h1 className="display-3 text-center">Edit Your Profile</h1>
           </div>
           <div className="col-md-8 m-auto">
             <form className="p-4" onSubmit={this.onSubmit}>
@@ -379,14 +481,18 @@ export class CreateProfile extends Component {
 }
 CreateProfile.PropTypes = {
   createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
+  profile: state.profile,
   errors: state.errors
 });
 
 const mapDispatchToProps = {
-  createProfile
+  createProfile,
+  getCurrentProfile
 };
 
 export default connect(

@@ -27,6 +27,9 @@ class Header extends Component {
 
     const authLink = (
       <div className="d-flex ml-auto">
+        <Link className="text-white mr-4" to="/dashboard">
+          Dashboard
+        </Link>
         <Link className="text-white" to="" onClick={this.onLogout.bind(this)}>
           Log Out
         </Link>

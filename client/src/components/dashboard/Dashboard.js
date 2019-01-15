@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
-import { getCurrentProfile } from "../../actions/profileActions";
+import { getCurrentProfile, deleteProfile } from "../../actions/profileActions";
 import ProfileActions from "./ProfileActions";
 
 class Dashboard extends Component {
@@ -11,7 +11,7 @@ class Dashboard extends Component {
     this.props.getCurrentProfile();
   }
   onDelete(e) {
-    this.props.deleteAccount();
+    this.props.deleteProfile();
   }
   render() {
     const { user } = this.props.auth;
@@ -70,6 +70,7 @@ class Dashboard extends Component {
 }
 
 Dashboard.PropTypes = {
+  deleteProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
@@ -81,7 +82,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getCurrentProfile
+  getCurrentProfile,
+  deleteProfile
 };
 
 export default connect(

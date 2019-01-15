@@ -10,6 +10,9 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
   }
+  onDelete(e) {
+    this.props.deleteAccount();
+  }
   render() {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
@@ -29,6 +32,15 @@ class Dashboard extends Component {
               </Link>
             </p>
             <ProfileActions />
+            {/* todo:display experience */}
+            {/* todo:display education */}
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={this.onDelete.bind(this)}
+            >
+              Delete My Account
+            </button>
           </div>
         );
       } else {

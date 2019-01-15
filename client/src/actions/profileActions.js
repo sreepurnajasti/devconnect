@@ -5,7 +5,8 @@ import {
   CLEAR_CURRENT_PROFILE,
   PROFILE_NOT_FOUND,
   GET_PROFILES,
-  GET_ERRORS
+  GET_ERRORS,
+  SET_CURRENT_USER
 } from "./types";
 
 export const getCurrentProfile = () => dispatch => {
@@ -40,7 +41,9 @@ export const clearCurrentProfile = () => {
 
 export const createProfile = (newProfile, history) => dispatch => {
   axios
-    .post("/api/profile", newProfile, { proxy: { host: "192.168.1.1", port: 3128 } })
+    .post("/api/profile", newProfile, {
+      proxy: { host: "192.168.1.1", port: 3128 }
+    })
     .then(res => {
       history.push("/login");
     })
@@ -50,4 +53,23 @@ export const createProfile = (newProfile, history) => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+export const deleteProfile = () => dispatch => {
+  if (window.confirm("Are you sure? You cannot revert it back !")) {
+    axios
+      .delete("/api/profile")
+      .then(res =>
+        dispatch({
+          type: SET_CURRENT_USER,
+          payload: {}
+        })
+      )
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  }
 };

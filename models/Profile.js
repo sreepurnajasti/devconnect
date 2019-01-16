@@ -104,8 +104,7 @@ const profileSchema = new Schema({
         required: true
       },
       specialization: {
-        type: String,
-        required: true
+        type: String
       },
       location: {
         type: String

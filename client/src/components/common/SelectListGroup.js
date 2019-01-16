@@ -2,7 +2,16 @@ import React from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-const SelectListGroup = ({ name, value, error, info, onChange, label, options }) => {
+const SelectListGroup = ({
+  id,
+  name,
+  value,
+  error,
+  info,
+  onChange,
+  label,
+  options
+}) => {
   const selectOptions = options.map(option => (
     <option key={option.label} value={option.value}>
       {option.label}
@@ -10,13 +19,13 @@ const SelectListGroup = ({ name, value, error, info, onChange, label, options })
   ));
   return (
     <div className="form-group">
-      <label for={name}>{label}</label>
+      <label htmlFor={id}>{label}</label>
       <select
         className={classnames("form-control", {
           "is-invalid": error
         })}
         name={name}
-        id={name}
+        id={id}
         value={value}
         onChange={onChange}
       >
@@ -29,6 +38,7 @@ const SelectListGroup = ({ name, value, error, info, onChange, label, options })
 };
 
 SelectListGroup.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,

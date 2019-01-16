@@ -56,7 +56,7 @@ class Login extends Component {
           <div className="col-md-8 m-auto">
             <form className="p-4" onSubmit={this.onSubmit}>
               <div className="form-group">
-                <label for="email">Email:</label>
+                <label htmlFor="email">Email:</label>
                 <input
                   type="email"
                   className={classnames("form-control form-control-lg ", {
@@ -73,7 +73,7 @@ class Login extends Component {
                 )}
               </div>
               <div className="form-group">
-                <label for="password">Password:</label>
+                <label htmlFor="password">Password:</label>
                 <input
                   type="password"
                   className={classnames("form-control form-control-lg ", {

@@ -6,9 +6,6 @@ module.exports = function validateEducationInput(data) {
 
   data.school = !isEmpty(data.school) ? data.school : "";
   data.degree = !isEmpty(data.degree) ? data.degree : "";
-  data.specialization = !isEmpty(data.specialization)
-    ? data.specialization
-    : "";
   data.from = !isEmpty(data.from) ? data.from : "";
 
   if (validator.isEmpty(data.school)) {
@@ -17,9 +14,7 @@ module.exports = function validateEducationInput(data) {
   if (validator.isEmpty(data.degree)) {
     errors.degree = "Degree field is required";
   }
-  if (validator.isEmpty(data.specialization)) {
-    errors.specialization = "Specialization field is required";
-  }
+
   if (validator.isEmpty(data.from)) {
     errors.from = "From field is required";
   }

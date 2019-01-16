@@ -304,9 +304,10 @@ export class CreateProfile extends Component {
               />
 
               <div className="form-group">
-                <label for="dob">Date Of Birth:</label>
+                <label htmlFor="dob">Date Of Birth:</label>
                 <InputGroup
                   placeholder="Choose birth date"
+                  type="date"
                   name="dob"
                   icon="fa fa-calendar"
                   error={errors.dob}
@@ -316,7 +317,7 @@ export class CreateProfile extends Component {
               </div>
 
               <SelectListGroup
-                label="* Gender:"
+                label="Gender:"
                 name="gender"
                 id="gender"
                 options={genderOptions}

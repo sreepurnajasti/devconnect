@@ -14,7 +14,7 @@ const TextAreaFieldGroup = ({
 }) => {
   return (
     <div className="form-group">
-      <label for={id}>{label}</label>
+      <label htmlFor={id}>{label}</label>
       <textarea
         className={classnames("form-control", {
           "is-invalid": error

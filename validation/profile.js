@@ -29,7 +29,9 @@ module.exports = function validateLoginInput(data) {
   // if (validator.isMobilePhone(data.emergencyNo)) {
   //   errors.emergencyNo = "Not a valid phone number";
   // }
-
+  if (!validator.isInt(data.empNo)) {
+    errors.empNo = "Employee Number must be a number";
+  }
   if (validator.isEmpty(data.empNo)) {
     errors.empNo = "Employee Number field is required";
   }

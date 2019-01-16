@@ -115,6 +115,9 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log(
+      "------------------------------------In profile creation--------------------------------"
+    );
     const { errors, isValid } = profileValidation(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
@@ -168,24 +171,46 @@ router.post(
           { new: true }
         )
           .then(profile => {
-            console.log("came here:" + profile);
+            // console.log("came here:" + profile);
             res.json(profile);
           })
           .catch(err => console.log(err));
       } else {
         //create
         //check if handle exists
-        Profile.findOne({ "company.handle": profileFields.handle })
+        console.log(
+          "--------------------------------- Didnot enter into update ------------------------"
+        );
+        Profile.findOne({ "company.handle": profileFields.company.handle })
           .then(profile => {
             if (profile) {
+              console.log(
+                "---------------------------------- Found handle ------------------------"
+              );
               errors.handle = "This handle already exists";
               res.status(400).json(errors);
             }
-            //save profile
-            new Profile(profileFields)
-              .save()
-              .then(profile => res.json(profile))
-              .catch(err => console.log(err));
+            Profile.findOne({
+              "company.empNo": profileFields.company.empNo
+            }).then(profile => {
+              if (profile) {
+                console.log(
+                  "----------------------------------- found empNo -----------------------------"
+                );
+                errors.empNo =
+                  "This empNo already exists. Please contact the support team";
+                res.status(400).json(errors);
+              }
+              console.log(
+                "------------------------------ empNo & handle not existing ------------------------creating profile -----------------------------------------"
+              );
+
+              //save profile
+              new Profile(profileFields)
+                .save()
+                .then(profile => res.json(profile))
+                .catch(err => console.log(err));
+            });
           })
           .catch(err => console.log(err));
       }
@@ -204,6 +229,21 @@ router.post(
     const { errors, isValid } = experienceValidation(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
+    }
+    if (new Date(req.body.from) > new Date()) {
+      errors.from = "From date should be on or before current date";
+      return res.status(404).json(errors);
+    }
+    if (req.body.to.length > 0) {
+      if (new Date(req.body.to) < new Date(req.body.from)) {
+        errors.to = "To date cannot be before From date";
+        return res.status(404).json(errors);
+      }
+    } else {
+      if (!req.body.current) {
+        errors.to = "Select a To date or check the box";
+        return res.status(404).json(errors);
+      }
     }
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newExp = {
@@ -232,6 +272,21 @@ router.post(
     const { errors, isValid } = educationValidation(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
+    }
+    if (new Date(req.body.from) > new Date()) {
+      errors.from = "From date should be on or before current date";
+      return res.status(404).json(errors);
+    }
+    if (req.body.to.length > 0) {
+      if (new Date(req.body.to) < new Date(req.body.from)) {
+        errors.to = "To date cannot be before From date";
+        return res.status(404).json(errors);
+      }
+    } else {
+      if (!req.body.current) {
+        errors.to = "Select a To date or check the box";
+        return res.status(404).json(errors);
+      }
     }
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newEdu = {

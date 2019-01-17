@@ -13,6 +13,35 @@ const profileValidation = require("../../validation/profile");
 const educationValidation = require("../../validation/education");
 const experienceValidation = require("../../validation/experience");
 
+//path
+const path = require("path");
+//multer configuaration
+const multer = require("multer");
+const maxSize = 1 * 1000 * 1000;
+// const storage = multer.diskStorage({
+//   destination: function(req, file, callback) {
+//     callback(null, path.join(__dirname, "../../images"));
+//   },
+//   filename: function(req, file, callback) {
+//     console.log("file :" + JSON.stringify(file));
+//     callback(null, file.originalname);
+//   }
+// });
+// var upload = multer({
+//   storage: storage,
+//   limits: { fileSize: maxSize },
+//   fileFilter: function(req, file, callback) {
+//     var mimeTypeList = ["image/png", "image/jpeg"];
+//     if (mimeTypeList.indexOf(file.mimetype) <= -1) {
+//       var cusError = new Error("File type is invalid");
+//       cusError.code = "INVALID_FILE_TYPE";
+//       return callback(cusError);
+//     } else {
+//       return callback(null, true);
+//     }
+//   }
+// }).single("avatar");
+
 /* @route GET api/profile/test
    @desc Test the profile route
    @access public
@@ -115,14 +144,13 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(
-      "------------------------------------In profile creation--------------------------------"
-    );
+    const profileFields = {};
     const { errors, isValid } = profileValidation(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    const profileFields = {};
+
+    //constructing object to upload
     profileFields.user = req.user.id;
     //company Info
     profileFields.company = {};
@@ -178,15 +206,9 @@ router.post(
       } else {
         //create
         //check if handle exists
-        console.log(
-          "--------------------------------- Didnot enter into update ------------------------"
-        );
         Profile.findOne({ "company.handle": profileFields.company.handle })
           .then(profile => {
             if (profile) {
-              console.log(
-                "---------------------------------- Found handle ------------------------"
-              );
               errors.handle = "This handle already exists";
               res.status(400).json(errors);
             }
@@ -194,17 +216,10 @@ router.post(
               "company.empNo": profileFields.company.empNo
             }).then(profile => {
               if (profile) {
-                console.log(
-                  "----------------------------------- found empNo -----------------------------"
-                );
                 errors.empNo =
                   "This empNo already exists. Please contact the support team";
                 res.status(400).json(errors);
               }
-              console.log(
-                "------------------------------ empNo & handle not existing ------------------------creating profile -----------------------------------------"
-              );
-
               //save profile
               new Profile(profileFields)
                 .save()
@@ -217,6 +232,58 @@ router.post(
     });
   }
 );
+
+// router.post(
+//   "/upload-avatar",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     let errors = {};
+//     let profileFields = {};
+//     upload(req, res, function(err) {
+//       if (err) {
+//         switch (err.code) {
+//           case "LIMIT_UNEXPECTED_FILE":
+//             errors.avatar = "cannot upload more than one file";
+//             return res.status(400).json(errors);
+
+//           case "LIMIT_FILE_SIZE":
+//             errors.avatar = "file size is greater than 1mb";
+//             return res.status(400).json(errors);
+
+//           case "INVALID_FILE_TYPE":
+//             errors.avatar = "file must be of type jpeg or png";
+//             return res.status(400).json(errors);
+//         }
+//       }
+//       if (req.file) {
+//         console.log(req.file);
+//         profileFields.avatar = req.file.path;
+//       }
+//       Profile.findOne({ user: req.user.id })
+//         .then(profile => {
+//           if (profile) {
+//             //update
+//             Profile.findOneAndUpdate(
+//               { user: req.user.id },
+//               { $set: profileFields },
+//               { new: true }
+//             )
+//               .then(profile => {
+//                 // console.log("came here:" + profile);
+//                 return res.json(profile);
+//               })
+//               .catch(err => console.log(err));
+//           } else {
+//             new Profile(profileFields)
+//               .save()
+//               .then(profile => res.json(profile))
+//               .catch(err => console.log(err));
+//           }
+//         })
+//         .catch(err => console.log(err));
+//     });
+//   }
+// );
 
 /* @route POST api/profile/experience
    @desc add experiences to profile

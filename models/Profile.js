@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const path = require("path");
 const profileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId, // combine by id
     ref: "users" //existing model reference
+  },
+  avatar: {
+    type: String,
+    default: path.join(__dirname, "..\\images\\default.png")
   },
   company: {
     empNo: {

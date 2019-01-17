@@ -43,7 +43,7 @@ class Header extends Component {
               <Link className="text-white font-weight-bold mr-4 " to="/">
                 Employee Connector
               </Link>
-              <Link className="text-white" to="/profiles">
+              <Link className="text-white" to="/employees">
                 Employees
               </Link>
             </div>

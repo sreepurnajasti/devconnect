@@ -73,3 +73,21 @@ export const deleteProfile = () => dispatch => {
       );
   }
 };
+
+export const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get("/api/profile/all", { proxy: { host: "192.168.1.1", port: 3128 } })
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      })
+    );
+};

@@ -27,6 +27,26 @@ export const getCurrentProfile = () => dispatch => {
     );
 };
 
+export const getProfileByHandle = handle => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile/handle/${handle}`, {
+      proxy: { host: "192.168.1.1", port: 3128 }
+    })
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: null
+      })
+    );
+};
+
 export const setProfileLoading = () => {
   return {
     type: PROFILE_LOADING

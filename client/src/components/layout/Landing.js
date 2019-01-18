@@ -40,7 +40,7 @@ class Landing extends Component {
     );
 
     return (
-      <div className="container-fluid height-fixer">
+      <div className="container-fluid ">
         <div className="row landing__wrapper">
           {isAuthenticated ? authLinks : guestLinks}
         </div>

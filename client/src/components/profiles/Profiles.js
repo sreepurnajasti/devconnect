@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getProfiles } from "../../actions/profileActions";
 import Spinner from "../common/Spinner";
+import sad from "../../img/insideoutsad.png";
+import ProfileItem from "./ProfileItem";
 
 export class Profiles extends Component {
   componentDidMount() {
@@ -15,9 +17,25 @@ export class Profiles extends Component {
       profileItems = <Spinner />;
     } else {
       if (profiles.length === 0) {
-        profileItems = <h4>No profiles to display ...</h4>;
+        profileItems = (
+          <div style={{ width: "100%", height: "200px" }}>
+            <div>
+              <img
+                className="float-center"
+                src={sad}
+                alt="no profiles ..."
+                style={{ height: "150px", margin: "auto", display: "block" }}
+              />
+            </div>
+            <div className="text-center">
+              <h4> No profiles to display!!!</h4>
+            </div>
+          </div>
+        );
       } else {
-        profileItems = <h4>Profiles here</h4>;
+        profileItems = profiles.map(profile => (
+          <ProfileItem key={profile._id} profile={profile} />
+        ));
       }
     }
     return (

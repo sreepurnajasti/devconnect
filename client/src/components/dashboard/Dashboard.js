@@ -38,7 +38,7 @@ class Dashboard extends Component {
             <Education education={profile.education} />
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn btn-danger shadow mb-4"
               onClick={this.onDelete.bind(this)}
             >
               Delete My Account
@@ -51,7 +51,7 @@ class Dashboard extends Component {
           <div>
             <p className="lead text-muted">Welcome {user.name}</p>
             <p>You have not yet created a profile, Please add some info</p>
-            <Link to="/create-profile" className="btn btnlg btn-info">
+            <Link to="/create-profile" className="btn btn-info shadow mb-4">
               Create Profile
             </Link>
           </div>
@@ -59,7 +59,7 @@ class Dashboard extends Component {
       }
     }
     return (
-      <div className="container-fluid height-fixer">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
             <h1 className="display-3 text-center">Dashboard</h1>

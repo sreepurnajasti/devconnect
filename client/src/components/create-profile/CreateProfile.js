@@ -190,7 +190,7 @@ export class CreateProfile extends Component {
       { label: "Rather Not Say", value: "Rather Not Say" }
     ];
     return (
-      <div className="container-fluid height-fixer">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
             <h1 className="display-3 text-center">Create Your Profile</h1>

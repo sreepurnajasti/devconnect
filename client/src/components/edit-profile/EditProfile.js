@@ -8,6 +8,7 @@ import InputGroup from "../common/InputGroup";
 import { withRouter } from "react-router-dom";
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/isEmpty";
+import { Link } from "react-router-dom";
 
 export class CreateProfile extends Component {
   constructor() {
@@ -295,10 +296,16 @@ export class CreateProfile extends Component {
       { label: "Rather Not Say", value: "Rather Not Say" }
     ];
     return (
-      <div className="container-fluid height-fixer">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
             <h1 className="display-3 text-center">Edit Your Profile</h1>
+          </div>
+          <div className="col-md-8 m-auto">
+            <Link to="/dashboard" className="btn btn-light mr-4">
+              <i class="fa fa-arrow-left text-info mr-1" />
+              Back
+            </Link>
           </div>
           <div className="col-md-8 m-auto">
             <form className="p-4" onSubmit={this.onSubmit}>

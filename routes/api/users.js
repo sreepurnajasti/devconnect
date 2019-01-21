@@ -6,6 +6,9 @@ var router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+
+const nodemailer = require("nodemailer");
+
 require("../../config/passport")(passport);
 
 //Register validation
@@ -49,17 +52,74 @@ router.post("/register", (req, res) => {
           // Store hash in your password DB.
           if (err) throw err;
           newUser.password = hash;
-          //TODO: Here Email verification should come
+
           newUser
             .save()
-            .then(user => res.json(user))
+            .then(user => {
+              //email verification comes here
+              const payload = {
+                id: user.id,
+                name: user.name,
+                email: user.email
+              };
+              jwt.sign(
+                payload,
+                keys.secretOrKey,
+                { expiresIn: "1d" },
+                (err, token) => {
+                  if (err) {
+                    console.log(JSON.stringify(err));
+                  }
+                  const url = `http://localhost:5000/api/users/confirmation/${token}`;
+                  const transporter = nodemailer.createTransport({
+                    service: "Gmail",
+                    auth: {
+                      user: "sreepurna.jasti",
+                      pass: "XXXXXXXX"
+                    }
+                  });
+                  transporter.sendMail({
+                    to: user.email,
+                    sub: "confirm email",
+                    html: `please click on the following link:<br> <a href = "${url}"> ${url}</a>`
+                  });
+                }
+              );
+              //sending response
+              res.json(user);
+            })
             .catch(err => console.log(JSON.stringify(err)));
         });
       });
     }
   });
 });
-
+/* @route GET api/users/test
+   @desc Test the users route
+   @access public
+*/
+router.get("/confirmation/:token", (req, res) => {
+  jwt.verify(req.params.token, keys.secretOrKey, (err, decoded) => {
+    if (err) {
+      console.log(JSON.stringify(err));
+    }
+    console.log("----------Decoded jwt ------->" + JSON.stringify(decoded));
+    const email = decoded.email;
+    User.findOneAndUpdate(
+      { email: decoded.email },
+      { $set: { active: true } },
+      { new: true }
+    )
+      .then(user => {
+        console.log(
+          "---------------transfored user------------>" + JSON.stringify(user)
+        );
+        console.log("activated user");
+        res.redirect("http://localhost:3000/login");
+      })
+      .catch(err => console.log(err));
+  });
+});
 /* @route POST api/users/login
    @desc login user/ returning jwt token
    @access Public
@@ -78,10 +138,13 @@ router.post("/login", (req, res) => {
       errors.email = "User email not found";
       return res.status(404).json(errors);
     }
+    if (!user.active) {
+      errors.password = "Please activate your account";
+      return res.status(404).json(errors);
+    }
     bcrypt.compare(password, user.password).then(isMatch => {
       //isMatch is true, password is correct
       if (isMatch) {
-        //TODO: Activation link here
         const payload = {
           id: user.id,
           name: user.name,

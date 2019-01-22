@@ -1,13 +1,14 @@
 const validator = require("validator");
 const isEmpty = require("./isEmpty");
+const moment = require("moment");
 
 module.exports = function validateLoginInput(data) {
   let errors = {};
 
   data.empNo = !isEmpty(data.empNo) ? data.empNo : "";
-  // data.companyName = !isEmpty(data.companyName) ? data.companyName : "";
+
   data.department = !isEmpty(data.department) ? data.department : "";
-  // data.location = !isEmpty(data.location) ? data.location : "";
+
   data.status = !isEmpty(data.status) ? data.status : "";
   data.handle = !isEmpty(data.handle) ? data.handle : "";
 
@@ -23,27 +24,24 @@ module.exports = function validateLoginInput(data) {
   if (!validator.isLength(data.handle, { min: 2, max: 50 })) {
     errors.handle = "Handle must be between 2 and 50 characters";
   }
-  // if (validator.isMobilePhone(data.phone)) {
-  //   errors.phone = "Not a valid phone number";
-  // }
-  // if (validator.isMobilePhone(data.emergencyNo)) {
-  //   errors.emergencyNo = "Not a valid phone number";
-  // }
+
+  if (!validator.isLength(data.phone, { min: 10, max: 12 })) {
+    errors.phone = "Phone must be atleast of 10 digit number";
+  }
+  if (!validator.isLength(data.emergencyNo, { min: 10, max: 12 })) {
+    errors.emergencyNo = "Emergency Number must be atleast of 10 digit number";
+  }
   if (!validator.isInt(data.empNo)) {
     errors.empNo = "Employee Number must be a number";
   }
   if (validator.isEmpty(data.empNo)) {
     errors.empNo = "Employee Number field is required";
   }
-  // if (validator.isEmpty(data.companyName)) {
-  //   errors.companyName = "companyName field is required";
-  // }
+
   if (validator.isEmpty(data.department)) {
     errors.department = "department field is required";
   }
-  // if (validator.isEmpty(data.location)) {
-  //   errors.location = "location field is required";
-  // }
+
   if (validator.isEmpty(data.status)) {
     errors.status = "status field is required";
   }
@@ -65,11 +63,11 @@ module.exports = function validateLoginInput(data) {
   if (validator.isEmpty(data.skills)) {
     errors.skills = "skills field is required";
   }
-  // if (!isEmpty(data.dob)) {
-  //   if (!validator.isRFC3339(data.dob)) {
-  //     errors.dob = "Not a valid date";
-  //   }
-  // }
+  if (!isEmpty(data.dob)) {
+    if (!moment(data.dob, "DD-MM-YYYY", true).isValid()) {
+      errors.dob = "Not a valid date";
+    }
+  }
   if (!isEmpty(data.website)) {
     if (!validator.isURL(data.website)) {
       errors.website = "Not a valid URL";

@@ -38,6 +38,7 @@ export class Profiles extends Component {
         ));
       }
     }
+
     return (
       <div className="container-fluid height-fixer">
         <div className="row">
@@ -46,6 +47,20 @@ export class Profiles extends Component {
             <h2 className="font-weight-light text-center mb-4">
               Browse and connect with your peers
             </h2>
+          </div>
+          <div className="col-md-8 m-auto mb-4 ">
+            <form className="form-inline float-right mb-4" action="/">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="search by skills"
+                id="usr"
+                name="skillsearch"
+              />
+              <button type="submit" className="btn btn-info">
+                <i class="fa fa-search" />
+              </button>
+            </form>
           </div>
           <div className="col-md-8 m-auto">{profileItems}</div>
         </div>

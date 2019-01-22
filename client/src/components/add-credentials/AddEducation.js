@@ -59,7 +59,7 @@ export class AddEducation extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container-fluid height-fixer">
+      <div className="container-fluid mb-4">
         <div className="row">
           <div className="col-md-12">
             <h1 className="display-3 text-center">Add Education</h1>

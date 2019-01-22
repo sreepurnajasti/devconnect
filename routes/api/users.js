@@ -70,12 +70,12 @@ router.post("/register", (req, res) => {
                   if (err) {
                     console.log(JSON.stringify(err));
                   }
-                  const url = `http://localhost:5000/api/users/confirmation/${token}`;
+                  const url = `http://192.168.1.38:5000/api/users/confirmation/${token}`;
                   const transporter = nodemailer.createTransport({
                     service: "Gmail",
                     auth: {
                       user: "sreepurna.jasti",
-                      pass: "XXXXXXXX"
+                      pass: "xxxxxxxxxxxxxxxxxxxxxxx"
                     }
                   });
                   transporter.sendMail({

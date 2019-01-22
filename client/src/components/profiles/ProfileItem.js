@@ -11,12 +11,12 @@ class ProfileItem extends Component {
         <div className="row">
           <div className="col-lg-8 col-md-8 col-12">
             <h3>{profile.user.name}</h3>
-            <p>Employee number: {profile.company.empNo}</p>
-            <p>Department: {profile.company.department}</p>
-            <p>Position: {profile.company.status}</p>
+            <p>Employee number : {profile.company.empNo}</p>
+            <p>Department : {profile.company.department}</p>
+            <p>Position : {profile.company.status}</p>
             <p>
               {!isEmpty(profile.company.shift)
-                ? `Shift:${profile.company.shift}`
+                ? `Shift : ${profile.company.shift}`
                 : ""}
             </p>
             <Link

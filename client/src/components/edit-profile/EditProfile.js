@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/isEmpty";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 export class CreateProfile extends Component {
   constructor() {
@@ -80,7 +81,10 @@ export class CreateProfile extends Component {
       profile.gender = !isEmpty(profile.personal.gender)
         ? profile.personal.gender
         : "";
-      profile.dob = !isEmpty(profile.personal.dob) ? profile.personal.dob : "";
+      profile.dob = !isEmpty(profile.personal.dob)
+        ? moment(profile.personal.dob).format("DD-MM-YYYY")
+        : "";
+      console.log(moment(profile.personal.dob).format("DD-MM-YYYY"));
       profile.phone = !isEmpty(profile.personal.phone)
         ? profile.personal.phone.toString()
         : "";
@@ -157,6 +161,12 @@ export class CreateProfile extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    let errors = this.state.errors;
+    let name = e.target.name;
+    if (errors[name]) {
+      delete errors[name];
+      this.setState({ errors });
+    }
   }
   onSubmit(e) {
     e.preventDefault();
@@ -417,10 +427,12 @@ export class CreateProfile extends Component {
                 <InputGroup
                   placeholder="Choose birth date"
                   name="dob"
+                  id="dob"
                   icon="fa fa-calendar"
                   error={errors.dob}
                   value={this.state.dob}
                   onChange={this.onChange}
+                  info="Please enter in DD-MM-YYYY format(eg. 15-02-1995)"
                 />
               </div>
 

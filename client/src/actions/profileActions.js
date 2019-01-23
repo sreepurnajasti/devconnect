@@ -111,3 +111,22 @@ export const getProfiles = () => dispatch => {
       })
     );
 };
+export const getProfilesBySkills = skills => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile/skills/${skills}`, {
+      proxy: { host: "192.168.1.1", port: 3128 }
+    })
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      })
+    );
+};

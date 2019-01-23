@@ -11,9 +11,31 @@ class ProfileHeader extends Component {
             <div className="card-body text-center">
               <h1 className="display-4 ">{profile.user.name}</h1>
               <p className="lead font-weight-light">
-                {profile.company.empNo} - {profile.company.department} -{" "}
-                {profile.company.status}
+                <p>
+                  Bearing employee number <b> {profile.company.empNo} </b>{" "}
+                </p>
+                <p>
+                  Belonging to <b> {profile.company.department} </b>
+                </p>
+
+                <p>
+                  Holding position of <b> {profile.company.status} </b>{" "}
+                </p>
+                {isEmpty(profile.company && profile.company.mentor) ? null : (
+                  <p>
+                    Reporting to <b>{profile.company.mentor}</b>
+                  </p>
+                )}
+
+                {isEmpty(
+                  profile.company && profile.company.phoneExtension
+                ) ? null : (
+                  <p>
+                    Reach at <b>{profile.company.phoneExtension}</b>
+                  </p>
+                )}
               </p>
+
               <p>
                 <i className="fa fa-envelope mr-2" />
                 {profile.user.email}

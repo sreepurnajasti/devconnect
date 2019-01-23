@@ -6,11 +6,10 @@ module.exports = function validateLoginInput(data) {
   let errors = {};
 
   data.empNo = !isEmpty(data.empNo) ? data.empNo : "";
-
   data.department = !isEmpty(data.department) ? data.department : "";
-
   data.status = !isEmpty(data.status) ? data.status : "";
   data.handle = !isEmpty(data.handle) ? data.handle : "";
+  data.phoneExtension = !isEmpty(data.phoneExtension) ? data.phoneExtension : "";
 
   data.phone = !isEmpty(data.phone) ? data.phone : "";
   data.address = !isEmpty(data.address) ? data.address : "";
@@ -36,6 +35,12 @@ module.exports = function validateLoginInput(data) {
   }
   if (validator.isEmpty(data.empNo)) {
     errors.empNo = "Employee Number field is required";
+  }
+  if (!validator.isInt(data.phoneExtension)) {
+    errors.phoneExtension = "Phone extension must be a number";
+  }
+  if (validator.isEmpty(data.phoneExtension)) {
+    errors.phoneExtension = "Phone extension field is required";
   }
 
   if (validator.isEmpty(data.department)) {
@@ -64,7 +69,9 @@ module.exports = function validateLoginInput(data) {
     errors.skills = "skills field is required";
   }
   if (!isEmpty(data.dob)) {
-    if (!moment(data.dob, "DD-MM-YYYY", true).isValid()) {
+    date = moment(data.dob).format("DD-MM-YYYY");
+    if (!moment(date, "DD-MM-YYYY", true).isValid()) {
+      console.log("came to validation");
       errors.dob = "Not a valid date";
     }
   }

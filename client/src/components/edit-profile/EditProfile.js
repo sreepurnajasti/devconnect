@@ -20,6 +20,8 @@ export class CreateProfile extends Component {
       department: "",
       status: "",
       shift: "",
+      phoneExtension: "",
+      mentor: "",
       handle: "",
       gender: "",
       dob: "",
@@ -76,6 +78,12 @@ export class CreateProfile extends Component {
         : "";
       profile.handle = !isEmpty(profile.company.handle)
         ? profile.company.handle
+        : "";
+      profile.phoneExtension = !isEmpty(profile.company.phoneExtension)
+        ? profile.company.phoneExtension.toString()
+        : "";
+      profile.mentor = !isEmpty(profile.company.mentor)
+        ? profile.company.mentor.toString()
         : "";
 
       profile.gender = !isEmpty(profile.personal.gender)
@@ -137,6 +145,8 @@ export class CreateProfile extends Component {
         status: profile.status,
         shift: profile.shift,
         handle: profile.handle,
+        phoneExtension: profile.phoneExtension,
+        mentor: profile.mentor,
         gender: profile.gender,
         dob: profile.dob,
         phone: profile.phone,
@@ -176,6 +186,9 @@ export class CreateProfile extends Component {
       status: this.state.status,
       shift: this.state.shift,
       handle: this.state.handle,
+      phoneExtension: this.state.phoneExtension,
+      mentor: this.state.mentor,
+
       gender: this.state.gender,
       dob: this.state.dob,
       phone: this.state.phone,
@@ -237,7 +250,7 @@ export class CreateProfile extends Component {
             onChange={this.onChange}
           />
           <InputGroup
-            placeholder="Youtube Channel URL"
+            placeholder="Instagram URL"
             name="instagram"
             icon="fa fa-instagram"
             error={errors.instagram}
@@ -275,14 +288,17 @@ export class CreateProfile extends Component {
     const deptOptions = [
       { label: "Select Department", value: 0 },
       { label: "Engineering", value: "Engineering" },
+      { label: "HumanResource", value: "HumanResource" },
+      { label: "Management", value: "Management" },
       { label: "Marketing", value: "Marketing" },
-      { label: "Sales", value: "Sales" }
+      { label: "Sales", value: "Sales" },
+      { label: "Testing", value: "testing" }
     ];
     //select options for shift
     const shiftOptions = [
       { label: "Select Shift", value: 0 },
-      { label: "Morning", value: "Morning" },
-      { label: "Afternoon", value: "Afternoon" },
+      { label: "Day", value: "Day" },
+      { label: "Split", value: "Split" },
       { label: "Night", value: "Night" }
     ];
     //select options for blood group
@@ -334,7 +350,7 @@ export class CreateProfile extends Component {
                 info="A uinque handle for your profile URL."
               />
               <TextFieldGroup
-                label="* Employee Number:"
+                label="* Phone Extension:"
                 placeholder="Enter employee number"
                 name="empNo"
                 id="empNo"
@@ -360,6 +376,15 @@ export class CreateProfile extends Component {
                 value={this.state.status}
                 onChange={this.onChange}
               />
+              <TextFieldGroup
+                label="* Phone Extension:"
+                placeholder="Enter phone extension number"
+                name="phoneExtension"
+                id="phoneExtension"
+                error={errors.phoneExtension}
+                value={this.state.phoneExtension}
+                onChange={this.onChange}
+              />
               <SelectListGroup
                 label="Shift:"
                 name="shift"
@@ -369,10 +394,16 @@ export class CreateProfile extends Component {
                 value={this.state.shift}
                 onChange={this.onChange}
               />
-              <h3 className="font-weight-light mb-4">
-                {" "}
-                Personal Information:{" "}
-              </h3>
+              <TextFieldGroup
+                label="Mentor:"
+                placeholder="Enter mentor name"
+                name="mentor"
+                id="mentor"
+                error={errors.mentor}
+                value={this.state.mentor}
+                onChange={this.onChange}
+              />
+              <h3 className="font-weight-light mb-4">Personal Information:</h3>
               <TextFieldGroup
                 label="* Skills:"
                 placeholder="Enter Skills"
@@ -433,6 +464,7 @@ export class CreateProfile extends Component {
                   value={this.state.dob}
                   onChange={this.onChange}
                   info="Please enter in DD-MM-YYYY format(eg. 15-02-1995)"
+                  type="date"
                 />
               </div>
 

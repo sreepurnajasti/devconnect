@@ -26,6 +26,13 @@ const profileSchema = new Schema({
     shift: {
       type: String
     },
+    mentor:{
+      type: String
+    },
+    phoneExtension: {
+      type: Number,
+      required: true
+    },
     handle: {
       type: String,
       required: true,

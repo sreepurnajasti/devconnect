@@ -9,19 +9,19 @@ module.exports = function validateRegisterInput(data) {
   console.log(data);
   console.log(typeof data.name);
 
-  // if (!validator.isEmpty(data.email)) {
-  //   let emailSplitter = data.email.split("@");
-  //   let domain = emailSplitter[1];
-  //   let domainList = ["prodexnet.com", "egrabber.com", "assetpulse.com"];
-  //   if (!isEmpty(domain)) {
-  //     if (domainList.indexOf(domain) <= -1) {
-  //       errors.email =
-  //         "Email is not valid. Please use your company email address";
-  //     }
-  //   } else {
-  //     errors.email = "Email is not valid";
-  //   }
-  // }
+  if (!validator.isEmpty(data.email)) {
+    let emailSplitter = data.email.split("@");
+    let domain = emailSplitter[1];
+    let domainList = ["prodexnet.com", "egrabber.com", "assetpulse.com"];
+    if (!isEmpty(domain)) {
+      if (domainList.indexOf(domain) <= -1) {
+        errors.email =
+          "Email is not valid. Please use your company email address";
+      }
+    } else {
+      errors.email = "Email is not valid";
+    }
+  }
   if (!validator.isLength(data.name, { min: 2, max: 30 })) {
     errors.name = "Name must be between 2 and 30 characters";
   }

@@ -19,6 +19,12 @@ class ProfileItem extends Component {
                 ? `Shift : ${profile.company.shift}`
                 : ""}
             </p>
+            <p>
+              {!isEmpty(profile.company.mentor)
+                ? `Mentor : ${profile.company.mentor}`
+                : ""}
+            </p>
+            <p>Phone extension : {profile.company.phoneExtension}</p>
             <Link
               to={`/employees/${profile.company.handle}`}
               className="btn btn-info shadow"
@@ -29,7 +35,7 @@ class ProfileItem extends Component {
           <div className="col-md-4 d-none d-md-block">
             <h4>Skill Set</h4>
             <ul className="list-group">
-              {profile.skills.slice(0, 4).map((skill, index) => (
+              {profile.skills.slice(0, 5).map((skill, index) => (
                 <li key={index} className="list-group-item">
                   <i className="fa fa-check-pr-1" />
                   {skill}

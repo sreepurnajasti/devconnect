@@ -11,6 +11,7 @@ const InputGroup = ({
   icon,
   type,
   info,
+  pattern,
   onChange
 }) => {
   return (
@@ -22,7 +23,7 @@ const InputGroup = ({
           </span>
         </div>
         <input
-          
+          type={type}
           className={classnames("form-control", {
             "is-invalid": error
           })}
@@ -30,6 +31,7 @@ const InputGroup = ({
           name={name}
           id={id}
           value={value}
+          pattern={pattern}
           onChange={onChange}
         />
         {error && <div className="invalid-feedback">{error}</div>}
@@ -43,6 +45,7 @@ const InputGroup = ({
 
 InputGroup.propTypes = {
   name: PropTypes.string.isRequired,
+  pattern: PropTypes.string,
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,

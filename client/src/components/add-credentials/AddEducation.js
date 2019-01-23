@@ -34,6 +34,12 @@ export class AddEducation extends Component {
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    let errors = this.state.errors;
+    let name = e.target.name;
+    if (errors[name]) {
+      delete errors[name];
+      this.setState({ errors });
+    }
   }
   onSubmit(e) {
     e.preventDefault();

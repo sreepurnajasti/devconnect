@@ -75,7 +75,7 @@ router.post("/register", (req, res) => {
                     service: "Gmail",
                     auth: {
                       user: "sreepurna.jasti",
-                      pass: "xxxxxxxxxxxxxxxxxxxxxxx"
+                      pass: "devish22"
                     }
                   });
                   transporter.sendMail({
@@ -115,7 +115,7 @@ router.get("/confirmation/:token", (req, res) => {
           "---------------transfored user------------>" + JSON.stringify(user)
         );
         console.log("activated user");
-        res.redirect("http://localhost:3000/login");
+        res.redirect("http://192.168.1.38:3000/login");
       })
       .catch(err => console.log(err));
   });

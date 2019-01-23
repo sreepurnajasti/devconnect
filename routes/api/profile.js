@@ -91,7 +91,37 @@ router.get("/handle/:handle", (req, res) => {
       })
     );
 });
+router.get("/skills/:skills", (req, res) => {
+  const errors = {};
+  let skill = req.params.skills.toLowerCase().split(",");
+  skill = skill.map(function(s) {
+    return s.trim();
+  });
+  console.log("came here");
+  console.log("skills:" + skill);
 
+  if (skill.length > 0) {
+    Profile.find({ skills: { $all: skill } })
+      .populate("user", ["name", "email"])
+      .then(profiles => {
+        if (!profiles) {
+          errors.noprofile = "There are no profiles to display";
+          res.status(404).json(errors);
+        }
+        console.log("success state");
+
+        res.json(profiles);
+      })
+      .catch(err =>
+        res.status(404).json({
+          profile: "There are no profiles to display"
+        })
+      );
+  } else {
+    errors.search = "please enter a valid search";
+    return res.status(400).json(errors);
+  }
+});
 /* @route GET api/user/:user_id
    @desc Get profile by user
    @access Public
@@ -122,6 +152,7 @@ router.get("/all", (req, res) => {
   const errors = {};
   Profile.find()
     .populate("user", ["name", "email"])
+    .sort({ "company.empNo": 1 })
     .then(profiles => {
       if (!profiles) {
         errors.noprofile = "There are no profiles to display";
@@ -155,10 +186,13 @@ router.post(
     //company Info
     profileFields.company = {};
     if (req.body.empNo) profileFields.company.empNo = req.body.empNo;
+    if (req.body.phoneExtension)
+      profileFields.company.phoneExtension = req.body.phoneExtension;
     if (req.body.department)
       profileFields.company.department = req.body.department;
     if (req.body.status) profileFields.company.status = req.body.status;
     if (req.body.shift) profileFields.company.shift = req.body.shift;
+    if (req.body.mentor) profileFields.company.mentor = req.body.mentor;
     if (req.body.handle) profileFields.company.handle = req.body.handle;
     //Personal Info
     profileFields.personal = {};
@@ -176,7 +210,11 @@ router.post(
       profileFields.personal.githubusername = req.body.githubusername;
     //Skills
     if (typeof req.body.skills != "undefined") {
-      profileFields.skills = req.body.skills.split(",");
+      profileFields.skills = req.body.skills.toLowerCase().split(",");
+
+      profileFields.skills = profileFields.skills.map(function(s) {
+        return s.trim();
+      });
     }
     //Social Media Links
     profileFields.social = {};
@@ -314,10 +352,10 @@ router.post(
     }
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newExp = {
-        title: req.body.title,
-        company: req.body.company,
+        title: req.body.title.toLowerCase(),
+        company: req.body.company.toLowerCase(),
         from: req.body.from,
-        location: req.body.location,
+        location: req.body.location.toLowerCase(),
         description: req.body.description,
         to: req.body.to,
         current: req.body.current
@@ -357,11 +395,11 @@ router.post(
     }
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newEdu = {
-        school: req.body.school,
-        degree: req.body.degree,
+        school: req.body.school.toLowerCase(),
+        degree: req.body.degree.toLowerCase(),
         from: req.body.from,
-        specialization: req.body.specialization,
-        location: req.body.location,
+        specialization: req.body.specialization.toLowerCase(),
+        location: req.body.location.toLowerCase(),
         description: req.body.description,
         to: req.body.to,
         current: req.body.current

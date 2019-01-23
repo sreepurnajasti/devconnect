@@ -18,6 +18,9 @@ export class CreateProfile extends Component {
       status: "",
       shift: "",
       handle: "",
+      phoneExtension: "",
+      mentor:"",
+      
       gender: "",
       dob: "",
       phone: "",
@@ -51,6 +54,12 @@ export class CreateProfile extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    let errors = this.state.errors;
+    let name = e.target.name;
+    if (errors[name]) {
+      delete errors[name];
+      this.setState({ errors });
+    }
   }
   onSubmit(e) {
     e.preventDefault();
@@ -59,6 +68,8 @@ export class CreateProfile extends Component {
       department: this.state.department,
       status: this.state.status,
       shift: this.state.shift,
+      phoneExtension: this.state.phoneExtension,
+      mentor: this.state.mentor,
       handle: this.state.handle,
       gender: this.state.gender,
       dob: this.state.dob,
@@ -121,7 +132,7 @@ export class CreateProfile extends Component {
             onChange={this.onChange}
           />
           <InputGroup
-            placeholder="Youtube Channel URL"
+            placeholder="Instagram URL"
             name="instagram"
             icon="fa fa-instagram"
             error={errors.instagram}
@@ -159,14 +170,17 @@ export class CreateProfile extends Component {
     const deptOptions = [
       { label: "Select Department", value: 0 },
       { label: "Engineering", value: "Engineering" },
+      { label: "HumanResource", value: "HumanResource" },
+      { label: "Management", value: "Management" },
       { label: "Marketing", value: "Marketing" },
-      { label: "Sales", value: "Sales" }
+      { label: "Sales", value: "Sales" },
+      { label: "Testing", value: "testing" }
     ];
     //select options for shift
     const shiftOptions = [
       { label: "Select Shift", value: 0 },
-      { label: "Morning", value: "Morning" },
-      { label: "Afternoon", value: "Afternoon" },
+      { label: "Day", value: "Day" },
+      { label: "Split", value: "Split" },
       { label: "Night", value: "Night" }
     ];
     //select options for blood group
@@ -241,6 +255,15 @@ export class CreateProfile extends Component {
                 value={this.state.status}
                 onChange={this.onChange}
               />
+              <TextFieldGroup
+                label="* Phone Extension:"
+                placeholder="Enter phone extension number"
+                name="phoneExtension"
+                id="phoneExtension"
+                error={errors.phoneExtension}
+                value={this.state.phoneExtension}
+                onChange={this.onChange}
+              />
               <SelectListGroup
                 label="Shift:"
                 name="shift"
@@ -250,10 +273,17 @@ export class CreateProfile extends Component {
                 value={this.state.shift}
                 onChange={this.onChange}
               />
-              <h3 className="font-weight-light mb-4">
-                {" "}
-                Personal Information:{" "}
-              </h3>
+              <TextFieldGroup
+                label="Mentor:"
+                placeholder="Enter mentor name"
+                name="mentor"
+                id="mentor"
+                error={errors.mentor}
+                value={this.state.mentor}
+                onChange={this.onChange}
+              />
+              
+              <h3 className="font-weight-light mb-4">Personal Information: </h3>
               <TextFieldGroup
                 label="* Skills:"
                 placeholder="Enter Skills"
@@ -309,10 +339,12 @@ export class CreateProfile extends Component {
                   placeholder="Choose birth date"
                   type="date"
                   name="dob"
+                  info="Please enter in DD-MM-YYYY format(eg. 15-02-1995)"
                   icon="fa fa-calendar"
                   error={errors.dob}
                   value={this.state.dob}
                   onChange={this.onChange}
+                  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}"
                 />
               </div>
 

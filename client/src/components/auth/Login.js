@@ -16,9 +16,9 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   //Do not allow user to come to register when they are already loggedin
-  componentDidMount(){
-    if(this.props.auth.isAuthenticated){
-      this.props.history.push('/dashboard');
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
     }
   }
   //Set the errors to component state and on successful login send to dashboard
@@ -32,6 +32,12 @@ class Login extends Component {
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    let errors = this.state.errors;
+    let name = e.target.name;
+    if (errors[name]) {
+      delete errors[name];
+      this.setState({ errors });
+    }
   }
   onSubmit(e) {
     e.preventDefault();

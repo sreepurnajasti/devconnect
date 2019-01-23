@@ -28,8 +28,7 @@ class Dashboard extends Component {
           <div>
             <p className="lead text-muted">
               Welcome
-              <Link to={`/profile/${profile.company.handle}`}>
-                {" "}
+              <Link to={`/employees/${profile.company.handle}`}>
                 {user.name}
               </Link>
             </p>
@@ -49,7 +48,7 @@ class Dashboard extends Component {
         //logged in user has no profile
         dashboardContent = (
           <div>
-            <p className="lead text-muted">Welcome {user.name}</p>
+            <p className="lead text-muted">Welcome{ user.name}</p>
             <p>You have not yet created a profile, Please add some info</p>
             <Link to="/create-profile" className="btn btn-info shadow mb-4">
               Create Profile

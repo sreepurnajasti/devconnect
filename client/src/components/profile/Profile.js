@@ -22,14 +22,14 @@ class Profile extends Component {
     let profileContent;
     if (loading) {
       profileContent = (
-        <div className="col-md-8 m-auto">
+        <div className="col-md-8 m-auto height-fixer">
           <Spinner />
         </div>
       );
     } else {
       if (profile === null) {
         profileContent = (
-          <div style={{ width: "100%", height: "200px" }}>
+          <div className="height-fixer">
             <div>
               <img
                 className="float-center"
@@ -45,7 +45,7 @@ class Profile extends Component {
         );
       } else {
         profileContent = (
-          <div className="col-md-8 m-auto">
+          <div className="col-md-8 m-auto height-fixer">
             <div className="row">
               <div className="col-md-6">
                 <Link to="/employees" className="btn btn-light my-3 float-left">

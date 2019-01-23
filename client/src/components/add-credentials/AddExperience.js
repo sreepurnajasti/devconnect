@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { addExperience } from "../../actions/experienceActions";
@@ -61,15 +62,22 @@ export class AddExperience extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="container-fluid mb-4">
+      <div className="container-fluid mb-4 height-fixer">
         <div className="row">
           <div className="col-md-12">
             <h1 className="display-3 text-center">Add Experience</h1>
-            <h2 className="font-weight-light text-center mb-4">
-              Add any job or position you had!!
-            </h2>
             <div className="col-md-8 m-auto">
-              <form onSubmit={this.onSubmit}>
+              <Link to="/dashboard" className="btn btn-light mr-4">
+                <i class="fa fa-arrow-left text-info mr-1" />
+                Back
+              </Link>
+            </div>
+            <div className="col-md-8 m-auto">
+              <form className="py-4" onSubmit={this.onSubmit}>
+                <h3 className="font-weight-light mb-4">
+                  Add any experience such as full-time employement, internships,
+                  freelance works, open source contributions and part-time jobs
+                </h3>
                 <TextFieldGroup
                   label="* Title:"
                   placeholder="Enter Position"

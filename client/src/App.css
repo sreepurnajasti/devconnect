@@ -13,3 +13,21 @@
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+.height-fixer {
+  padding-bottom: 72px;
+  padding-top: 56px;
+  min-height: 100vh;
+}
+header {
+  height: 56px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+footer {
+  height: 72px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

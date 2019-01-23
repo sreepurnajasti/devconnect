@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+
 import { addEducation } from "../../actions/educationActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
@@ -65,15 +66,22 @@ export class AddEducation extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container-fluid mb-4">
+      <div className="container-fluid mb-4 height-fixer">
         <div className="row">
           <div className="col-md-12">
             <h1 className="display-3 text-center">Add Education</h1>
-            <h2 className="font-weight-light text-center mb-4">
-              Add any qualifications, bootcamps, and courses you had!!
-            </h2>
             <div className="col-md-8 m-auto">
-              <form onSubmit={this.onSubmit}>
+              <Link to="/dashboard" className="btn btn-light mr-4">
+                <i class="fa fa-arrow-left text-info mr-1" />
+                Back
+              </Link>
+            </div>
+            <div className="col-md-8 m-auto">
+              <form className="py-4" onSubmit={this.onSubmit}>
+                <h3 className="font-weight-light mb-4">
+                  Add any education information such as qualifications,
+                  bootcamps, and courses
+                </h3>
                 <TextFieldGroup
                   label="* School / College:"
                   placeholder="Enter school / college"

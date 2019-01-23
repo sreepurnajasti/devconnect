@@ -50,7 +50,7 @@ export class Profiles extends Component {
     } else {
       if (profiles.length === 0) {
         profileItems = (
-          <div style={{ width: "100%", height: "200px" }}>
+          <div className="height-fixer">
             <div>
               <img
                 className="float-center"

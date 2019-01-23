@@ -7,7 +7,7 @@ class Landing extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const guestLinks = (
-      <div className="landing">
+      <div className="landing ">
         <h1 className="display-1 my-4">Employee Connector</h1>
         <h2 className="font-weight-light my-4">
           Create a portfolio and let your peers know about you!!
@@ -26,7 +26,7 @@ class Landing extends Component {
     );
 
     const authLinks = (
-      <div className="landing">
+      <div className="landing ">
         <h1 className="my-4">Welcome {user.name}</h1>
         <h2 className="font-weight-light my-4">
           Create /Edit your portfolio and let your peers know about you!!
@@ -40,7 +40,7 @@ class Landing extends Component {
     );
 
     return (
-      <div className="container-fluid ">
+      <div className="container-fluid height-fixer">
         <div className="row landing__wrapper">
           {isAuthenticated ? authLinks : guestLinks}
         </div>
